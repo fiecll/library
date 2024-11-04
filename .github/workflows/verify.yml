@@ -1,0 +1,45 @@
+name: verify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # リポジトリ内容の書き込み権限
+
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v2  # リポジトリのコードを取得
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # 必要に応じて Python バージョンを指定
+
+      - name: 依存関係をインストール
+        run: pip install -U online-judge-verify-helper  # `oj-verify` を使用
+
+      - name: テスト実行
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DROPBOX_TOKEN: ${{ secrets.DROPBOX_TOKEN }}
+          YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
+        run: oj-verify all
+
+      - name: 成果物の生成
+        run: |
+          # 必要に応じて成果物を生成するコマンドをここに追加
+          # 例: ライブラリのビルドやドキュメントの生成など
+
+      - name: 更新内容をコミットしてプッシュ
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Auto-update by GitHub Actions" || echo "No changes to commit"
+          git push origin main
