@@ -1,0 +1,51 @@
+name: Update Links
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/cpp/*.cpp'
+
+jobs:
+  update-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v2
+
+      - name: Generate Links Page
+        run: |
+          # C++ ファイル一覧を取得
+          cpp_files=$(find public/cpp -name "*.cpp")
+
+          # リンク一覧ページ用のファイルを生成
+          echo "import Link from 'next/link';" > pages/index.js
+          echo "const Home = () => {" >> pages/index.js
+          echo "  return (" >> pages/index.js
+          echo "    <div>" >> pages/index.js
+          echo "      <h1>競技プログラミングライブラリ</h1>" >> pages/index.js
+          echo "      <p>以下は自動生成された C++ アルゴリズムの一覧です。</p>" >> pages/index.js
+          echo "      <ul>" >> pages/index.js
+
+          # 各 C++ ファイルへのリンクを追加
+          for file in $cpp_files; do
+            filename=$(basename "$file" .cpp)
+            url="/cpp/$filename.cpp"
+            echo "        <li><Link href='$url'>$filename</Link></li>" >> pages/index.js
+          done
+
+          echo "      </ul>" >> pages/index.js
+          echo "    </div>" >> pages/index.js
+          echo "  );" >> pages/index.js
+          echo "};" >> pages/index.js
+          echo "export default Home;" >> pages/index.js
+
+      - name: コミットとプッシュ
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git add pages/index.js
+          git commit -m "Update links in index.js"
+          git push origin main
