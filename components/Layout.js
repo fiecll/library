@@ -6,8 +6,8 @@ const Layout = ({ children }) => {
             <header>
                 <nav>
                     <Link href="/">Home</Link> | 
-                    <Link href="/algorithms/sorting">Algorithms</Link> | 
-                    <Link href="/data-structures/stack">Data Structures</Link>
+                    <Link href="/algorithms/sorting">Sorting Algorithm</Link> | 
+                    <Link href="/algorithms/dijkstra">Dijkstra Algorithm</Link>
                 </nav>
             </header>
             <main>{children}</main>
