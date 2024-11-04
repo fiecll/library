@@ -1,25 +1,39 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
 }
 
-header {
-  background-color: #333;
-  padding: 1rem;
-  color: white;
-  text-align: center;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #333;
-  color: white;
-  margin-top: 2rem;
-}
-
-main {
+.container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  color: #444;
+}
+
+.algorithm-list {
+  list-style: none;
+  padding: 0;
+}
+
+.algorithm-list li {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.algorithm-list li a {
+  text-decoration: none;
+  color: #0066cc;
+  font-weight: bold;
+}
+
+.algorithm-list li a:hover {
+  color: #004499;
 }

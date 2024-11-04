@@ -15,12 +15,9 @@ jobs:
       - name: チェックアウト
         uses: actions/checkout@v2
 
-      - name: Generate Links for Algorithms
+      - name: Generate Algorithm Links
         run: |
-          # C++ ファイルの一覧を取得
           cpp_files=$(find public/cpp -name "*.cpp")
-
-          # Layout.js に埋め込むリンクリストを生成
           echo "const algorithmLinks = [" > components/algorithmLinks.js
           for file in $cpp_files; do
             filename=$(basename "$file" .cpp)
@@ -30,7 +27,7 @@ jobs:
           echo "];" >> components/algorithmLinks.js
           echo "export default algorithmLinks;" >> components/algorithmLinks.js
 
-      - name: コミットとプッシュ
+      - name: Commit and Push Generated Links
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions@github.com"
